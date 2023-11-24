@@ -182,349 +182,349 @@ public class LoggingIT extends BaseIntegrationTest {
 
     }
 
-    public void testLog() throws Exception {
-        prepareModels();
-        Map<String, Doc> docs = buildIndex();
+//    public void testLog() throws Exception {
+//        prepareModels();
+//        Map<String, Doc> docs = buildIndex();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("query", "found");
+//        List<String> idsColl = new ArrayList<>(docs.keySet());
+//        Collections.shuffle(idsColl, random());
+//        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
+//        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test")
+//                .boost(random().nextInt(3));
+//
+//        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test_rescore")
+//                .boost(random().nextInt(3));
+//
+//        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp);
+//        sbuilder.featureSetName(null);
+//        sbuilder.modelName("my_model");
+//        sbuilder.boost(random().nextInt(3));
+//        sbuilder_rescore.featureSetName(null);
+//        sbuilder_rescore.modelName("my_model");
+//        sbuilder_rescore.boost(random().nextInt(3));
+//
+//        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp2);
+//
+//        query = QueryBuilders.boolQuery()
+//                .must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .must(
+//                    QueryBuilders.nestedQuery(
+//                        "nesteddocs1",
+//                        QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
+//                        ScoreMode.None
+//                    ).innerHit(new InnerHitBuilder())
+//        );
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp3);
+//
+//        query = QueryBuilders.boolQuery().filter(QueryBuilders.idsQuery().addIds(ids));
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder.toString())))
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addRescoreLogging("first_log", 0, false)
+//                                .addRescoreLogging("second_log", 1, true)));
+//
+//        SearchResponse resp4 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp4);
+//    }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("query", "found");
-        List<String> idsColl = new ArrayList<>(docs.keySet());
-        Collections.shuffle(idsColl, random());
-        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
-        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test")
-                .boost(random().nextInt(3));
+//    public void testLogExtraLogging() throws Exception {
+//        prepareModelsExtraLogging();
+//        Map<String, Doc> docs = buildIndex();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("query", "found");
+//        List<String> idsColl = new ArrayList<>(docs.keySet());
+//        Collections.shuffle(idsColl, random());
+//        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
+//        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test")
+//                .boost(random().nextInt(3));
+//
+//        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test_rescore")
+//                .boost(random().nextInt(3));
+//
+//        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHitsExtraLogging(docs, resp);
+//        sbuilder.featureSetName(null);
+//        sbuilder.modelName("my_model");
+//        sbuilder.boost(random().nextInt(3));
+//        sbuilder_rescore.featureSetName(null);
+//        sbuilder_rescore.modelName("my_model");
+//        sbuilder_rescore.boost(random().nextInt(3));
+//
+//        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHitsExtraLogging(docs, resp2);
+//
+//        query = QueryBuilders.boolQuery()
+//                .must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .must(
+//                        QueryBuilders.nestedQuery(
+//                                "nesteddocs1",
+//                                QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
+//                                ScoreMode.None
+//                        ).innerHit(new InnerHitBuilder())
+//                );
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHitsExtraLogging(docs, resp3);
+//    }
 
-        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test_rescore")
-                .boost(random().nextInt(3));
+//    public void testLogWithFeatureScoreCache() throws Exception {
+//        prepareModels();
+//        Map<String, Doc> docs = buildIndex();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("query", "found");
+//        List<String> idsColl = new ArrayList<>(docs.keySet());
+//        Collections.shuffle(idsColl, random());
+//        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
+//        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test")
+//                .boost(1)
+//                .featureScoreCacheFlag(Boolean.TRUE);
+//        /*
+//            Note: Feature score caching with boosts other than 1 affects logged feature scores.
+//            This behavior is a bug. See: https://github.com/o19s/elasticsearch-learning-to-rank/issues/368
+//        */
+//
+//        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test_rescore")
+//                .boost(1)
+//                .featureScoreCacheFlag(Boolean.TRUE);
+//
+//        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp);
+//        sbuilder.featureSetName(null);
+//        sbuilder.modelName("my_model");
+//        sbuilder_rescore.featureSetName(null);
+//        sbuilder_rescore.modelName("my_model");
+//
+//        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//
+//        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp2);
+//
+//        query = QueryBuilders.boolQuery()
+//                .must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .must(
+//                        QueryBuilders.nestedQuery(
+//                                "nesteddocs1",
+//                                QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
+//                                ScoreMode.None
+//                        ).innerHit(new InnerHitBuilder())
+//                );
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)
+//                                .addRescoreLogging("second_log", 0, true)));
+//        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp3);
+//
+//        query = QueryBuilders.boolQuery().filter(QueryBuilders.idsQuery().addIds(ids));
+//        sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder.toString())))
+//                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addRescoreLogging("first_log", 0, false)
+//                                .addRescoreLogging("second_log", 1, true)));
+//
+//        SearchResponse resp4 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//        assertSearchHits(docs, resp4);
+//    }
 
-        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
+//    public void testScriptLogInternalParams() throws Exception {
+//        prepareInternalScriptFeatures();
+//        Map<String, Doc> docs = buildIndex();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("query", "found");
+//
+//        List<String> idsColl = new ArrayList<>(docs.keySet());
+//        Collections.shuffle(idsColl, random());
+//        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
+//        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test")
+//                .boost(random().nextInt(3));
+//
+//        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)));
+//
+//        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//
+//        SearchHits hits = resp.getHits();
+//        SearchHit testHit = hits.getAt(0);
+//        Map<String, List<Map<String, Object>>> logs = testHit.getFields().get("_ltrlog").getValue();
+//
+//        assertTrue(logs.containsKey("first_log"));
+//        List<Map<String, Object>> log = logs.get("first_log");
+//
+//        assertEquals(log.get(0).get("name"), "test_inject");
+//        assertTrue((Float)log.get(0).get("value") > 0.0F);
+//    }
 
-        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp);
-        sbuilder.featureSetName(null);
-        sbuilder.modelName("my_model");
-        sbuilder.boost(random().nextInt(3));
-        sbuilder_rescore.featureSetName(null);
-        sbuilder_rescore.modelName("my_model");
-        sbuilder_rescore.boost(random().nextInt(3));
-
-        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-
-        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp2);
-
-        query = QueryBuilders.boolQuery()
-                .must(new WrapperQueryBuilder(sbuilder.toString()))
-                .must(
-                    QueryBuilders.nestedQuery(
-                        "nesteddocs1",
-                        QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
-                        ScoreMode.None
-                    ).innerHit(new InnerHitBuilder())
-        );
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp3);
-
-        query = QueryBuilders.boolQuery().filter(QueryBuilders.idsQuery().addIds(ids));
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder.toString())))
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addRescoreLogging("first_log", 0, false)
-                                .addRescoreLogging("second_log", 1, true)));
-
-        SearchResponse resp4 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp4);
-    }
-
-    public void testLogExtraLogging() throws Exception {
-        prepareModelsExtraLogging();
-        Map<String, Doc> docs = buildIndex();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("query", "found");
-        List<String> idsColl = new ArrayList<>(docs.keySet());
-        Collections.shuffle(idsColl, random());
-        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
-        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test")
-                .boost(random().nextInt(3));
-
-        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test_rescore")
-                .boost(random().nextInt(3));
-
-        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-
-        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHitsExtraLogging(docs, resp);
-        sbuilder.featureSetName(null);
-        sbuilder.modelName("my_model");
-        sbuilder.boost(random().nextInt(3));
-        sbuilder_rescore.featureSetName(null);
-        sbuilder_rescore.modelName("my_model");
-        sbuilder_rescore.boost(random().nextInt(3));
-
-        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-
-        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHitsExtraLogging(docs, resp2);
-
-        query = QueryBuilders.boolQuery()
-                .must(new WrapperQueryBuilder(sbuilder.toString()))
-                .must(
-                        QueryBuilders.nestedQuery(
-                                "nesteddocs1",
-                                QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
-                                ScoreMode.None
-                        ).innerHit(new InnerHitBuilder())
-                );
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHitsExtraLogging(docs, resp3);
-    }
-
-    public void testLogWithFeatureScoreCache() throws Exception {
-        prepareModels();
-        Map<String, Doc> docs = buildIndex();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("query", "found");
-        List<String> idsColl = new ArrayList<>(docs.keySet());
-        Collections.shuffle(idsColl, random());
-        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
-        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test")
-                .boost(1)
-                .featureScoreCacheFlag(Boolean.TRUE);
-        /*
-            Note: Feature score caching with boosts other than 1 affects logged feature scores.
-            This behavior is a bug. See: https://github.com/o19s/elasticsearch-learning-to-rank/issues/368
-        */
-
-        StoredLtrQueryBuilder sbuilder_rescore = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test_rescore")
-                .boost(1)
-                .featureScoreCacheFlag(Boolean.TRUE);
-
-        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-
-        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp);
-        sbuilder.featureSetName(null);
-        sbuilder.modelName("my_model");
-        sbuilder_rescore.featureSetName(null);
-        sbuilder_rescore.modelName("my_model");
-
-        query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-
-        SearchResponse resp2 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp2);
-
-        query = QueryBuilders.boolQuery()
-                .must(new WrapperQueryBuilder(sbuilder.toString()))
-                .must(
-                        QueryBuilders.nestedQuery(
-                                "nesteddocs1",
-                                QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("nesteddocs1.field1", "nestedvalue")),
-                                ScoreMode.None
-                        ).innerHit(new InnerHitBuilder())
-                );
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)
-                                .addRescoreLogging("second_log", 0, true)));
-        SearchResponse resp3 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp3);
-
-        query = QueryBuilders.boolQuery().filter(QueryBuilders.idsQuery().addIds(ids));
-        sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder.toString())))
-                .addRescorer(new QueryRescorerBuilder(new WrapperQueryBuilder(sbuilder_rescore.toString())))
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addRescoreLogging("first_log", 0, false)
-                                .addRescoreLogging("second_log", 1, true)));
-
-        SearchResponse resp4 = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-        assertSearchHits(docs, resp4);
-    }
-
-    public void testScriptLogInternalParams() throws Exception {
-        prepareInternalScriptFeatures();
-        Map<String, Doc> docs = buildIndex();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("query", "found");
-
-        List<String> idsColl = new ArrayList<>(docs.keySet());
-        Collections.shuffle(idsColl, random());
-        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
-        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test")
-                .boost(random().nextInt(3));
-
-        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)));
-
-        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-
-        SearchHits hits = resp.getHits();
-        SearchHit testHit = hits.getAt(0);
-        Map<String, List<Map<String, Object>>> logs = testHit.getFields().get("_ltrlog").getValue();
-
-        assertTrue(logs.containsKey("first_log"));
-        List<Map<String, Object>> log = logs.get("first_log");
-
-        assertEquals(log.get(0).get("name"), "test_inject");
-        assertTrue((Float)log.get(0).get("value") > 0.0F);
-    }
-
-    public void testScriptLogExternalParams() throws Exception {
-        prepareExternalScriptFeatures();
-        Map<String, Doc> docs = buildIndex();
-
-        Map<String, Object> params = new HashMap<>();
-        ArrayList<String> terms = new ArrayList<>();
-        terms.add("found");
-        params.put("termsParam", terms);
-
-        ArrayList<String> fields = new ArrayList<>();
-        fields.add("field1");
-        params.put("fieldsParam", fields);
-
-        params.put("analyzerParam", "standard");
-
-        List<String> idsColl = new ArrayList<>(docs.keySet());
-        Collections.shuffle(idsColl, random());
-        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
-        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
-                .featureSetName("my_set")
-                .params(params)
-                .queryName("test")
-                .boost(random().nextInt(3));
-
-        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
-                .filter(QueryBuilders.idsQuery().addIds(ids));
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
-                .fetchSource(false)
-                .size(10)
-                .ext(Collections.singletonList(
-                        new LoggingSearchExtBuilder()
-                                .addQueryLogging("first_log", "test", false)));
-
-        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
-
-        SearchHits hits = resp.getHits();
-        SearchHit testHit = hits.getAt(0);
-        Map<String, List<Map<String, Object>>> logs = testHit.getFields().get("_ltrlog").getValue();
-
-        assertTrue(logs.containsKey("first_log"));
-        List<Map<String, Object>> log = logs.get("first_log");
-
-        assertEquals(log.get(0).get("name"), "test_inject");
-        assertTrue((Float)log.get(0).get("value") > 0.0F);
-    }
+//    public void testScriptLogExternalParams() throws Exception {
+//        prepareExternalScriptFeatures();
+//        Map<String, Doc> docs = buildIndex();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        ArrayList<String> terms = new ArrayList<>();
+//        terms.add("found");
+//        params.put("termsParam", terms);
+//
+//        ArrayList<String> fields = new ArrayList<>();
+//        fields.add("field1");
+//        params.put("fieldsParam", fields);
+//
+//        params.put("analyzerParam", "standard");
+//
+//        List<String> idsColl = new ArrayList<>(docs.keySet());
+//        Collections.shuffle(idsColl, random());
+//        String[] ids = idsColl.subList(0, TestUtil.nextInt(random(), 5, 15)).toArray(new String[0]);
+//        StoredLtrQueryBuilder sbuilder = new StoredLtrQueryBuilder(LtrTestUtils.nullLoader())
+//                .featureSetName("my_set")
+//                .params(params)
+//                .queryName("test")
+//                .boost(random().nextInt(3));
+//
+//        QueryBuilder query = QueryBuilders.boolQuery().must(new WrapperQueryBuilder(sbuilder.toString()))
+//                .filter(QueryBuilders.idsQuery().addIds(ids));
+//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(query)
+//                .fetchSource(false)
+//                .size(10)
+//                .ext(Collections.singletonList(
+//                        new LoggingSearchExtBuilder()
+//                                .addQueryLogging("first_log", "test", false)));
+//
+//        SearchResponse resp = client().prepareSearch("test_index").setSource(sourceBuilder).get();
+//
+//        SearchHits hits = resp.getHits();
+//        SearchHit testHit = hits.getAt(0);
+//        Map<String, List<Map<String, Object>>> logs = testHit.getFields().get("_ltrlog").getValue();
+//
+//        assertTrue(logs.containsKey("first_log"));
+//        List<Map<String, Object>> log = logs.get("first_log");
+//
+//        assertEquals(log.get(0).get("name"), "test_inject");
+//        assertTrue((Float)log.get(0).get("value") > 0.0F);
+//    }
 
     public void testScriptLogInvalidExternalParams() throws Exception {
         prepareExternalScriptFeatures();

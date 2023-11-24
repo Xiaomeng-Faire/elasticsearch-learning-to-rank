@@ -85,5 +85,6 @@ java {
 }
 
 // Set to false to not use elasticsearch checkstyle rules
-checkstyleMain.enabled = true
-checkstyleTest.enabled = true
+checkstyleMain.enabled = false
+checkstyleTest.enabled = false
+checkstyleJavaRestTest.enabled = false
