@@ -240,7 +240,6 @@ public class LtrQueryParserPlugin extends Plugin implements SearchPlugin, Script
                 Caches.LTR_CACHE_EXPIRE_AFTER_WRITE));
     }
 
-    @Override
     public Collection<Object> createComponents(Client client,
                                                ClusterService clusterService,
                                                ThreadPool threadPool,
