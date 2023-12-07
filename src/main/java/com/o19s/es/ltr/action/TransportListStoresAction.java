@@ -63,11 +63,11 @@ public class TransportListStoresAction extends TransportMasterNodeReadAction<Lis
                                      ClusterService clusterService, ThreadPool threadPool, ActionFilters actionFilters,
                                      IndexNameExpressionResolver indexNameExpressionResolver, Client client) {
         super(ListStoresAction.NAME, transportService, clusterService, threadPool,
-            actionFilters, ListStoresActionRequest::new, indexNameExpressionResolver, ListStoresActionResponse::new, ThreadPool.Names.SAME);
+            actionFilters, ListStoresActionRequest::new, indexNameExpressionResolver, ListStoresActionResponse::new,
+                threadPool.executor(ThreadPool.Names.SAME));
         this.client = client;
     }
 
-    @Override
     protected void masterOperation(Task task, ListStoresActionRequest request, ClusterState state,
                                    ActionListener<ListStoresActionResponse> listener) throws Exception {
         String[] names = indexNameExpressionResolver.concreteIndexNames(state,

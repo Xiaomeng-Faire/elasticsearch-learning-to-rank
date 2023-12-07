@@ -28,7 +28,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.internal.ElasticsearchClient;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
-import org.elasticsearch.common.xcontent.StatusToXContentObject;
+import org.elasticsearch.xcontent.ToXContent;
 import org.elasticsearch.xcontent.XContentBuilder;
 import org.elasticsearch.rest.RestStatus;
 
@@ -169,7 +169,7 @@ public class CreateModelFromSetAction extends ActionType<CreateModelFromSetRespo
         }
     }
 
-    public static class CreateModelFromSetResponse extends ActionResponse implements StatusToXContentObject {
+    public static class CreateModelFromSetResponse extends ActionResponse {
         private static final int VERSION = 1;
         private IndexResponse response;
 
@@ -194,12 +194,10 @@ public class CreateModelFromSetAction extends ActionType<CreateModelFromSetRespo
             return response;
         }
 
-        @Override
-        public XContentBuilder toXContent(XContentBuilder builder, Params params) throws IOException {
+        public XContentBuilder toXContent(XContentBuilder builder, ToXContent.Params params) throws IOException {
             return response.toXContent(builder, params);
         }
 
-        @Override
         public RestStatus status() {
             return response.status();
         }

@@ -13,7 +13,6 @@ import org.elasticsearch.client.internal.node.NodeClient;
 import org.elasticsearch.rest.RestResponse;
 import org.elasticsearch.rest.RestRequest;
 import org.elasticsearch.rest.RestStatus;
-import org.elasticsearch.rest.action.RestStatusToXContentListener;
 import org.elasticsearch.rest.action.RestToXContentListener;
 
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class RestFeatureManager extends FeatureStoreBaseRestHandler {
         String id = generateId(type, name);
         String routing = request.param("routing");
         return (channel) ->  {
-            RestStatusToXContentListener<DeleteResponse> restR = new RestStatusToXContentListener<>(channel, (r) -> r.getLocation(routing));
+            RestToXContentListener<DeleteResponse> restR = new RestToXContentListener<>(channel, (r) -> RestStatus.valueOf(r.getLocation(routing)));
             client.prepareDelete(indexName, id)
                     .setRouting(routing)
                     .execute(ActionListener.wrap((deleteResponse) -> {
@@ -110,7 +109,6 @@ public class RestFeatureManager extends FeatureStoreBaseRestHandler {
         return (channel) -> client.prepareGet(indexName, id)
                 .setRouting(routing)
                 .execute(new RestToXContentListener<GetResponse>(channel) {
-                    @Override
                     protected RestStatus getStatus(final GetResponse response) {
                         return response.isExists() ? OK : NOT_FOUND;
                     }
@@ -154,6 +152,6 @@ public class RestFeatureManager extends FeatureStoreBaseRestHandler {
         builder.request().setRouting(routing);
         builder.request().setStore(indexName);
         builder.request().setValidation(parserState.getValidation());
-        return (channel) -> builder.execute(new RestStatusToXContentListener<>(channel, (r) -> r.getResponse().getLocation(routing)));
+        return (channel) -> builder.execute(new RestToXContentListener<>(channel, (r) -> r.getResponse()));
     }
 }
